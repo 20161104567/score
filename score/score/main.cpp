@@ -49,7 +49,23 @@ extern int menu_select()
 }
 extern void t_output()
 {
-
+	FILE *fp;
+	int i;
+	fp = fopen("teacher.txt", "r");
+	if (fp == NULL)
+	{
+		printf("文件打开失败！\n");
+		exit(-1);
+	}
+	else
+	{
+		printf("姓名 性别 电话号码\n");
+		for (i = 0; i < 4; i++)
+			fscanf(fp,"%s %s   %ld\n", &t[i].name, &t[i].sex, &t[i].num);
+		for (i = 0; i < 4; i++)
+			printf("%s %s   %ld\n", t[i].name, t[i].sex, t[i].num);
+	}
+	fclose(fp);
 }
 extern void s_output()
 {
