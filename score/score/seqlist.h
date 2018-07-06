@@ -8,7 +8,7 @@
 #include <string.h>
 #include <iostream>
 
-extern int amount;
+//extern int amount;
 
 struct Teacher
 {
