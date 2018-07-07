@@ -33,4 +33,5 @@ extern int menu_select();
 extern void t_output();
 extern void s_output();
 extern void mark();
+extern void show();
 #endif

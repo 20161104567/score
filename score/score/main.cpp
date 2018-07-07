@@ -15,7 +15,7 @@ int main()
 			mark();
 			break;
 		case 4:
-			//show();
+			show();
 			break;
 		case 0:
 			//save();
@@ -37,7 +37,7 @@ extern int menu_select()
 	printf("          |	  1 --- 显示裁判信息       |          \n");
 	printf("          |	  2 --- 显示选手信息	   |          \n");
 	printf("          |	  3 --- 裁判打分环节	   |          \n");
-	printf("          |	  4 --- 显示参赛成绩	   |          \n");
+	printf("          |	  4 --- 显示选手成绩	   |          \n");
 	printf("          |	  0 --- 退出系统  	   |          \n");
 	do
 	{
@@ -121,7 +121,17 @@ extern void mark()
 		{
 			sum = sum + grade[i];
 		}
-		s[j].grade = sum / 3.0;
-		printf("平均成绩：%.2f\n",s[j].grade);
+		s[n].grade = sum / 3.0;
+		printf("平均成绩：%.2f\n",s[n].grade);
+	}
+}
+//显示选手成绩模块
+extern void show()
+{
+	int i;
+	printf("序号 姓名   性别  节目名称  节目类别   班级    电话号码  平均成绩\n");
+	for (i = 0; i < 5; i++)
+	{
+		printf("%3d %6s %4s %9s %8s %10s %9ld %8.2f\n", s[i].snum, s[i].name, s[i].sex, s[i].showname, s[i].showtype, s[i].stuclass, s[i].num, s[i].grade);
 	}
 }
