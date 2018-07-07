@@ -17,6 +17,9 @@ int main()
 		case 4:
 			show();
 			break;
+		case 5:
+			ranking();
+			break;
 		case 0:
 			//save();
 			printf("Thank you for using！\n");
@@ -38,13 +41,14 @@ extern int menu_select()
 	printf("          |	  2 --- 显示选手信息	   |          \n");
 	printf("          |	  3 --- 裁判打分环节	   |          \n");
 	printf("          |	  4 --- 显示选手成绩	   |          \n");
+	printf("          |	  5 --- 显示选手排名	   |          \n");
 	printf("          |	  0 --- 退出系统  	   |          \n");
 	do
 	{
-		printf("\n请输入选项（0－4）：");
+		printf("\n请输入选项（0－5）：");
 		fflush(stdin);
 		scanf("%d", &MenuItem);
-	} while (MenuItem<0 || MenuItem>4);
+	} while (MenuItem<0 || MenuItem>5);
 	return MenuItem;
 }
 //裁判信息输出模块
@@ -81,11 +85,11 @@ extern void s_output()
 	}
 	else
 	{
-		printf("序号 姓名   性别  节目名称  节目类别   班级    电话号码\n");
+		printf("序号 姓名   性别  节目名称 类别 节目类别   班级    电话号码\n");
 		for (i = 0; i < 6; i++)
-			fscanf(fp, "%d %s %s %s %s %s %ld\n", & s[i].snum, &s[i].name, &s[i].sex, &s[i].showname, &s[i].showtype, &s[i].stuclass, &s[i].num);
+			fscanf(fp, "%d %s %s %s %s %s %s %ld\n", & s[i].snum, &s[i].name, &s[i].sex, &s[i].showname, &s[i].type, &s[i].showtype, &s[i].stuclass, &s[i].num);
 		for (i = 0; i < 6; i++)
-			printf("%3d %6s %4s %9s %8s %10s %9ld\n", s[i].snum, s[i].name, s[i].sex, s[i].showname, s[i].showtype, s[i].stuclass, s[i].num);
+			printf("%3d %6s %4s %9s %3s %8s %10s %9ld\n", s[i].snum, s[i].name, s[i].sex, s[i].showname, &s[i].type, s[i].showtype, s[i].stuclass, s[i].num);
 	}
 	fclose(fp);
 }
@@ -129,9 +133,79 @@ extern void mark()
 extern void show()
 {
 	int i;
-	printf("序号 姓名   性别  节目名称  节目类别   班级    电话号码  平均成绩\n");
+	printf("序号 姓名   性别  节目名称  类别   节目类别   班级    电话号码  平均成绩\n");
 	for (i = 0; i < 5; i++)
 	{
-		printf("%3d %6s %4s %9s %8s %10s %9ld %8.2f\n", s[i].snum, s[i].name, s[i].sex, s[i].showname, s[i].showtype, s[i].stuclass, s[i].num, s[i].grade);
+		printf("%3d %6s %4s %9s %5s %9s %10s %9ld %8.2f\n", s[i].snum, s[i].name, s[i].sex, s[i].showname, &s[i].type, s[i].showtype, s[i].stuclass, s[i].num, s[i].grade);
+	}
+}
+//显示选手排名模块
+extern void ranking()
+{
+	int i,j;
+	int x;
+	struct Student t[100];
+	struct Student temp;
+	for (i = 0; i < 6; i++)
+	{
+		t[i] = s[i];
+	}
+	//唱歌选手排名
+	struct Student sing[100];
+	x = 0;
+	for (i = 0; i < 6; i++)
+	{
+		if (strcmp(t[i].type,"A") == 0)
+		{
+			sing[x] = t[i];
+			x++;
+		}
+	}
+	for (i = 0; i < x-1; i++)
+	{
+		for (j = 0; j < x-1; j++)
+		{
+			if (sing[j].grade < sing[j + 1].grade)
+			{
+				temp = sing[j];
+				sing[j] = sing[j + 1];
+				sing[j + 1] = temp;
+			}
+		}
+	}
+	printf("----唱歌类排行----\n");
+	printf("序号 姓名   性别  节目名称 类别 节目类别   班级    电话号码  平均成绩  排名\n");
+	for (i = 0; i < x; i++)
+	{
+		printf("%3d %6s %4s %9s %3s %8s %10s %9ld %8.2f %5d\n", sing[i].snum, sing[i].name, sing[i].sex, sing[i].showname, &sing[i].type, sing[i].showtype, sing[i].stuclass, sing[i].num, sing[i].grade, i+1);
+	}
+	//舞蹈选手排名
+	struct Student dance[100];
+	x = 0;
+	for (i = 0; i < 6; i++)
+	{
+		if (strcmp(t[i].type, "B") == 0)
+		{
+			dance[x] = t[i];
+			x++;
+		}
+	}
+	for (i = 0; i < x - 1; i++)
+	{
+		for (j = 0; j < x - 1; j++)
+		{
+			if (dance[j].grade < dance[j + 1].grade)
+			{
+				temp = dance[j];
+				dance[j] = dance[j + 1];
+				dance[j + 1] = temp;
+			}
+		}
+	}
+	printf("----舞蹈类排行----\n");
+	printf("序号 姓名   性别  节目名称 类别 节目类别   班级    电话号码  平均成绩  排名\n");
+	for (i = 0; i < x; i++)
+	{
+		printf("%3d %6s %4s %9s %3s %8s %10s %9ld %8.2f %5d\n", dance[i].snum, dance[i].name, dance[i].sex, dance[i].showname, dance[i].type, dance[i].showtype, dance[i].stuclass, dance[i].num, dance[i].grade, i + 1);
 	}
 }

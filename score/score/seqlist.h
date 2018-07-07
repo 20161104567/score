@@ -23,7 +23,8 @@ struct Student
 	char name[10];
 	char sex[5];
 	char showname[30];
-	char showtype[10];
+	char type[3];
+	char showtype[5];
 	char stuclass[10];
 	long num;
 	float grade;
@@ -34,4 +35,5 @@ extern void t_output();
 extern void s_output();
 extern void mark();
 extern void show();
+extern void ranking();
 #endif
