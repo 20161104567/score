@@ -21,7 +21,7 @@ int main()
 			ranking();
 			break;
 		case 0:
-			//save();
+			save();
 			printf("Thank you for using！\n");
 			system("pause");
 			return 0;
@@ -151,7 +151,7 @@ extern void ranking()
 		t[i] = s[i];
 	}
 	//唱歌选手排名
-	struct Student sing[100];
+	//struct Student sing[100];
 	x = 0;
 	for (i = 0; i < 6; i++)
 	{
@@ -161,6 +161,7 @@ extern void ranking()
 			x++;
 		}
 	}
+	samount = x;
 	for (i = 0; i < x-1; i++)
 	{
 		for (j = 0; j < x-1; j++)
@@ -173,14 +174,14 @@ extern void ranking()
 			}
 		}
 	}
-	printf("----唱歌类排行----\n");
+	printf("----唱歌类排名----\n");
 	printf("序号 姓名   性别  节目名称 类别 节目类别   班级    电话号码  平均成绩  排名\n");
 	for (i = 0; i < x; i++)
 	{
 		printf("%3d %6s %4s %9s %3s %8s %10s %9ld %8.2f %5d\n", sing[i].snum, sing[i].name, sing[i].sex, sing[i].showname, &sing[i].type, sing[i].showtype, sing[i].stuclass, sing[i].num, sing[i].grade, i+1);
 	}
 	//舞蹈选手排名
-	struct Student dance[100];
+	//struct Student dance[100];
 	x = 0;
 	for (i = 0; i < 6; i++)
 	{
@@ -190,6 +191,7 @@ extern void ranking()
 			x++;
 		}
 	}
+	damount = x;
 	for (i = 0; i < x - 1; i++)
 	{
 		for (j = 0; j < x - 1; j++)
@@ -202,10 +204,47 @@ extern void ranking()
 			}
 		}
 	}
-	printf("----舞蹈类排行----\n");
+	printf("----舞蹈类排名----\n");
 	printf("序号 姓名   性别  节目名称 类别 节目类别   班级    电话号码  平均成绩  排名\n");
 	for (i = 0; i < x; i++)
 	{
 		printf("%3d %6s %4s %9s %3s %8s %10s %9ld %8.2f %5d\n", dance[i].snum, dance[i].name, dance[i].sex, dance[i].showname, dance[i].type, dance[i].showtype, dance[i].stuclass, dance[i].num, dance[i].grade, i + 1);
 	}
+}
+//保存模块
+int samount;
+int damount;
+extern void save()
+{
+	int i;
+	FILE *fp;
+	FILE *fw;
+	fp = fopen("sing.txt", "w");
+	fw = fopen("dance.txt", "w");
+	if (fp == NULL)
+	{
+		printf("文件打开失败！\n");
+		exit(-1);
+	}
+	else
+	{
+		for (i = 0; i<samount; i++)
+		{
+			fprintf(fp,"%d %s %s %s %s %s %s %ld %.2f %d\n", sing[i].snum, sing[i].name, sing[i].sex, sing[i].showname, &sing[i].type, sing[i].showtype, sing[i].stuclass, sing[i].num, sing[i].grade, i + 1);
+		}
+	}
+	fclose(fp);
+	if (fw == NULL)
+	{
+		printf("文件打开失败！\n");
+		exit(-1);
+	}
+	else
+	{
+		for (i = 0; i<damount; i++)
+		{
+			fprintf(fw,"%d %s %s %s %s %s %s %ld %.2f %d\n", dance[i].snum, dance[i].name, dance[i].sex, dance[i].showname, dance[i].type, dance[i].showtype, dance[i].stuclass, dance[i].num, dance[i].grade, i + 1);
+		}
+	}
+	fclose(fp);
 }
